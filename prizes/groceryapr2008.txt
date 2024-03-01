@@ -1,0 +1,11 @@
+V8_Vegetable_Cocktail_(64_oz) JUICE 3.15
+Hot_Pockets_(2pk) PIZZA_SNACK 2.49
+Senokot_S_(10_tablets) LAXATIVE 7.62
+David_Jalapeno_Sunflower_Seeds_(1_bag) SUNFLOWER_SEEDS 1.09
+Buena_Comida_Tomato_Chili_Sauce_(8_oz) CHILI_SAUCE 0.39
+Dole_Pineapple_Slices_(15_oz) PINEAPPLE 1.79
+Nabisco_Oreo_Cookies COOKIES 3.89
+Pepperidge_Farm_Goldfish_Crackers_(2_oz) CRACKERS 2.67
+Baker's_Joy_Cooking_Spray COOKING_SPRAY 2.69
+Ziploc_Storage_Bags STORAGE_BAGS 2.99
+Theragesic_Plus_Cream_(3oz) PAIN_RELIEF 4.99

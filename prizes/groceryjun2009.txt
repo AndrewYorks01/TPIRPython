@@ -1,0 +1,13 @@
+Curad_Sensitive_Skin_Bandages_(50_spots) BANDAGES 3.49
+Nesquik_Chocolate_Milk_(16oz) CHOCOLATE_MILK 1.69
+Black_Forest_Gummy_Worms GUMMY_WORMS 1.29
+Dixie_5oz_Bath_Cups_(100ct) BATH_CUPS 3.59
+Easy_Cheese_Cheddar_Spread CHEESE 3.99
+Tide_To_Go_Stain_Remover STAIN_REMOVER 2.19
+Morton_Iodized_Salt_(26oz) SALT 0.89
+Martinelli's_Sparkling_Apple_Cider_(25.6oz) CIDER 3.99
+Joy_Ice_Cream_Cups_(12pk) CONES 1.49
+American_Beauty_Spaghetti_(16oz) SPAGHETTI 1.99
+Gold_Bond_Powder ITCH_POWDER 4.03
+Celestial_Seasonings_Cinnamon_Apple_Spice_Tea_(20_bags) TEA_BAGS 3.99
+Ruffles_Potato_Chips_(11oz) POTATO_CHIPS 3.99
