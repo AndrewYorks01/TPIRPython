@@ -142,10 +142,15 @@ while Loop:
             gro = input("Select a pricing game: ")
             if gro == "1":
                 print("You picked Bullseye")
+            elif gro == "2":
+                os.system('cls')
+                play_checkout()
             elif gro == "3":
+                os.system('cls')
                 play_grocerygame()
             elif gro == "8":
                 GrocLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 8.")
 
@@ -160,6 +165,7 @@ while Loop:
                 print("You picked Back to '72")
             elif sma == "6":
                 SmalLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 6.")
 
@@ -174,6 +180,7 @@ while Loop:
                 print("You picked Balance Game")
             elif sng == "13":
                 SingLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 13.")
 
@@ -188,6 +195,7 @@ while Loop:
                 print("You picked Bargain Game")
             elif mul == "18":
                 MultLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 18.")
 
@@ -202,6 +210,7 @@ while Loop:
                 print("You picked Card Game")
             elif cgs == "13":
                 CarLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 13.")
 
@@ -216,6 +225,7 @@ while Loop:
                 print("You picked Any Number")
             elif cms == "17":
                 Car2Loop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 17.")
 
@@ -230,6 +240,7 @@ while Loop:
                 print("You picked Grand Game")
             elif csh == "10":
                 CashLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 10.")
 
@@ -244,6 +255,7 @@ while Loop:
                 print("You picked Add 'em Up")
             elif ret == "18":
                 RetLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 18.")
 
@@ -258,6 +270,7 @@ while Loop:
                 print("You picked Magic #")
             elif re2 == "18":
                 Ret2Loop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 18.")
 
@@ -272,6 +285,7 @@ while Loop:
                 print("You picked Big Item Bash")
             elif cus == "9":
                 CusLoop = False
+                os.system('cls')
             else:
                 print("Please enter a number between 1 and 9.")
 
