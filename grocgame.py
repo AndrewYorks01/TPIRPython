@@ -4,6 +4,22 @@ import pathlib
 from random import randrange
 import random
 
+def compatible_for_bullseye(price):
+    p = float(price)
+    if (p > 12):
+        return False
+    elif ((p > 4) and (p < 5)):
+        return False
+    elif ((p > 6) and (p < 10)):
+        return False
+    elif ((p > 3) and (p < 3.34)):
+        return False
+    elif ((p > 2.40) and (p < 2.50)):
+        return False
+    else:
+        return True
+    
+
 def test():
     print("TEST")
     while True:
@@ -17,6 +33,122 @@ def test():
             break
         else:
             print("Please enter a number between 1 and 100")
+
+# Bullseye
+def play_bullseye():
+    ggItems = [] # generate the item database
+    file = dir_path + groc_path # generate the filepath to the item bank
+    print("\nBULLSEYE") 
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (compatible_for_bullseye(Grocery(*line.split()).price)): # only extract items with Bullseye-compatible prices
+            ggItems.append(Grocery(*line.split()))
+
+    size = len(ggItems) # get the size of the item bank
+    ids = random.sample(range(0, size+1), 5) # pick five different item IDs
+    items = [] # generate the items
+    picked = [False, False, False, False, False] # bools that check if each item has been purchased
+    has_marking = [False, False, False, False, False] # determines if a chosen prize is on the board (between $2-$10)
+    picks = 0 # how many products the player has chosen
+    won = False
+    hidden_bullseye = randrange(5) # location of the hidden bullseye
+
+    # set all the grocery items
+    for number in range (0, 5):
+       item = Grocery(ggItems[ids[number]].description, ggItems[ids[number]].shortname, ggItems[ids[number]].price)
+       items.append(item)
+
+    # show all the grocery items   
+    for i, item in enumerate(items):
+        print(str(i+1) + ". " + item.showPrize())
+
+    while ((picks < 3) and (not won)):
+        print("Picks remaining: " + str(3-picks))
+
+        # pick one of the prizes, ensuring that the player inputs a number
+        selecting = True
+        while (selecting):
+            player_choice = input("Which item (enter the number) would you like to buy?: ")
+            try:
+                player_choice = int(player_choice)
+            except ValueError:
+                print("\nPlease enter a digit.")
+                continue
+            if 1 <= player_choice <= 5:
+                selecting = False
+            else:
+                print("\nPlease enter a number between 1 and 5.")
+
+        # buying an item
+        if (picked[player_choice - 1]):
+            print("\nYou've already picked this item. Please pick another.")
+        else:
+            print("\nYou picked the " + items[player_choice-1].showShortName())
+            buying = True
+            # input how many of the item the player wants to buy, ensuring the player inputs a nonzero integer
+            while buying:
+                tobuy = input("How many do you want?: ")
+                try:
+                    tobuy = int(tobuy)
+                except ValueError:
+                    print("\nPlease enter a valid number.")
+                    continue
+                if tobuy > 0:
+                    buying = False
+                else:
+                    print("\nYou can't pick zero of something.")
+
+            # calculate the total
+            print("\nEach one is " + items[player_choice-1].showARP())
+            total = float(items[player_choice-1].price) * tobuy
+            print("For a total of " + str(f"${total:.2f}"))
+            if (total >= 10 and total <= 12): # on the bullseye
+                won = True
+            elif (total >= 2 and total < 10): # on the target, but not the bullseye
+                print("\nYou didn't hit the bullseye, but you do get a mark for this item.")
+                picked[player_choice-1] = True # the player has chosen this item
+                has_marking[player_choice-1] = True # this item has a mark
+                picks += 1
+            else: # not on the target at all
+                print("\nYou completely missed the target. You don't get a mark for this item.")
+                picked[player_choice-1] = True # the player has chosen this item
+                picks += 1
+        
+        # display the groceries again
+        if ( (not won) and (picks < 3) ):
+            print()
+            for i, item in enumerate(items):
+                if ( (picked[i] == True) and (has_marking[i] == True) ):
+                    print(str(i+1) + ". " + item.showPrize() + " - O")
+                elif ( (picked[i] == True) and (has_marking[i] == False) ):
+                    print(str(i+1) + ". " + item.showPrize() + " - X")
+                else:
+                    print(str(i+1) + ". " + item.showPrize())
+
+    # win conditions
+    if (won):
+        print("\nCongratulations, you win!")
+    elif ( (has_marking[0] == False) and (has_marking[1] == False) and (has_marking[2] == False) and (has_marking[3] == False) and (has_marking[4] == False) ):
+        print("\nSorry, you lose.")
+    else:
+        print("\nYou didn't hit the bullseye, but let's see if you found the hidden bullseye.")
+
+        # Find the hidden bullseye
+        for find in range (0, 5):
+            if (has_marking[find] and (not won)): # only reveal items on the board
+                input("Let's look behind the " + items[find].showShortName() + ": ")
+                if (find == hidden_bullseye):
+                    won = True
+                else:
+                    print("Sorry, it's not behind this item.")
+    
+        if (won):
+            print("Congratulations, you win!")
+        else:
+            print("\nSorry, you lose.")
+
+    endgame()
 
 # Check-Out
 def play_checkout():
@@ -76,7 +208,6 @@ def play_checkout():
         print("Sorry, you lose.")
 
     endgame()
-
 
 # Grocery Game
 def play_grocerygame():
@@ -157,6 +288,8 @@ def play_grocerygame():
                 boughtFive = True
             if ( (running_total >= 20) and (running_total <= 22) ):
                 won = True
+
+            # display the groceries again
             if ( (not won) and (running_total <= 22) ):
                 for i, item in enumerate(items):
                     if (picked[i] == True):

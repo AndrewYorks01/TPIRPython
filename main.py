@@ -141,7 +141,8 @@ while Loop:
             display_groc_menu()
             gro = input("Select a pricing game: ")
             if gro == "1":
-                print("You picked Bullseye")
+                os.system('cls')
+                play_bullseye()
             elif gro == "2":
                 os.system('cls')
                 play_checkout()
