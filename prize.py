@@ -4,6 +4,10 @@ import pathlib
 # Paths to the prize banks.
 dir_path = str(pathlib.Path(__file__).parent.resolve())
 groc_path = "\prizes\grocery.txt"
+smal_path = "\prizes\small.txt"
+med_path = "\prizes\medium.txt"
+larg_path = "\prizes\large.txt"
+car_path = "\prizes\car.txt"
 
 def endgame():
     input("Press any key to continue: ")

@@ -1,5 +1,6 @@
 from prize import *
 from grocgame import *
+from singleprize import *
 
 def display_main_menu():
     print("1. Grocery games")
@@ -185,6 +186,9 @@ while Loop:
             sng = input("Select a pricing game: ")
             if sng == "1":
                 print("You picked Balance Game")
+            elif sng == "5":
+                os.system('cls')
+                play_doubleprices()
             elif sng == "13":
                 SingLoop = False
                 os.system('cls')

@@ -1,6 +1,4 @@
 from prize import *
-import os
-import pathlib
 from random import randrange
 import random
 
