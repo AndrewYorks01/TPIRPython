@@ -308,7 +308,92 @@ def play_grocerygame():
 
     endgame()
                         
+# Hi-Lo
+def play_hilo():
+    ggItems = [] # generate the item database
+    file = dir_path + groc_path # generate the filepath to the item bank
+    print("\nHI-LO")
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        ggItems.append(Grocery(*line.split()))
     
+    size = len(ggItems) # get the size of the item bank
+    ids = random.sample(range(0, size+1), 6) # pick six different item IDs
+    items = [] # generate the items
+    picked = [False, False, False, False, False, False] # bools that check if each item has been purchased
+    hiPrices = [0.00, 0.00, 0.00] # prices on the high row
+
+    # set all the grocery items
+    for number in range (0, 6):
+       item = Grocery(ggItems[ids[number]].description, ggItems[ids[number]].shortname, ggItems[ids[number]].price)
+       items.append(item)
+
+    # show all the grocery items   
+    for i, item in enumerate(items):
+        print(str(i+1) + ". " + item.showPrize())
+
+    picks = 0 # Items chosen
+
+    while (picks < 3):
+        selecting = True
+        while selecting:
+            player_choice = input("Which item (enter the number) do you want to pick?: ")
+            try:
+                player_choice = int(player_choice)
+            except ValueError:
+                print("\nPlease enter a digit.")
+                continue
+            if 1 <= player_choice <= 6:
+                selecting = False
+            else:
+                print("\nPlease enter a number between 1 and 6.")
+
+        # selecting an item
+        if (picked[player_choice - 1]):
+            print("\nYou've already purchased this item. Please pick another.")
+        else:
+            print("\nThe actual retail price of the " + items[player_choice-1].showShortName() + " is " + items[player_choice-1].showARP())
+            print() # blank line
+            picked[player_choice-1] = True # this item has been selected
+            hiPrices[picks] = float(items[player_choice-1].price) # add the item's price to the hiPrices list
+
+            # show all the grocery items
+            for i, item in enumerate(items):
+                if (picked[i] == True):
+                    print(str(i+1) + ". " + item.showPrize() + " - " + item.showARP())
+                else:
+                    print(str(i+1) + ". " + item.showPrize())
+
+            picks += 1 # add one pick
+
+    # get the cheapest item on the HI shelf
+    cheapest = min(hiPrices)
+    print("\nThe cheapest price on the HI shelf is " + str(f"${cheapest:.2f}"))
+    input("Now, let's reveal the prices of the remaining items... ")
+
+    on = 0 # used in the reveal
+    lost = False # checks if the player has lost
+
+    # reveal the remaining prices
+    print() # skip a line
+    for number in range (0, 6):
+        if ( (not picked[number]) and (not lost) ):
+            on += 1
+            if (float(items[number].price) > cheapest): # break out of the loop and show the lose message
+                print("The actual retail price of the " + items[number].showShortName() + " is " + items[number].showARP())
+                lost = True
+            else:
+                if (on < 3): # pause for input unless the player is on the last item
+                    input("The actual retail price of the " + items[number].showShortName() + " is " + items[number].showARP())
+                else:
+                    print("The actual retail price of the " + items[number].showShortName() + " is " + items[number].showARP())
+    
+    if (lost == True):
+        print("\nSorry, you lose.")
+    else:
+        print("\nCongratulations, you win!")
+    endgame()
+
 
 
 

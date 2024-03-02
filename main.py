@@ -149,6 +149,9 @@ while Loop:
             elif gro == "3":
                 os.system('cls')
                 play_grocerygame()
+            elif gro == "4":
+                os.system('cls')
+                play_hilo()
             elif gro == "8":
                 GrocLoop = False
                 os.system('cls')
