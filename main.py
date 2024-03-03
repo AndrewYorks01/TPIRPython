@@ -192,6 +192,9 @@ while Loop:
             elif sng == "5":
                 os.system('cls')
                 play_doubleprices()
+            elif sng == "6":
+                os.system('cls')
+                play_flipflop()
             elif sng == "11":
                 os.system('cls')
                 play_sidebyside()
