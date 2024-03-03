@@ -1,6 +1,7 @@
 from prize import *
 from grocgame import *
 from singleprize import *
+from multiprize import *
 from cargame import *
 
 def display_main_menu():
@@ -214,6 +215,9 @@ while Loop:
             mul = input("Select a pricing game: ")
             if mul == "1":
                 print("You picked Bargain Game")
+            elif mul == "8":
+                os.system('cls')
+                play_mostexpensive()
             elif mul == "18":
                 MultLoop = False
                 os.system('cls')

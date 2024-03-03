@@ -99,7 +99,6 @@ def play_comingorgoing():
 
     endgame()
 
-
 # Double Prices
 def play_doubleprices():
     items = [] # generate the item database
