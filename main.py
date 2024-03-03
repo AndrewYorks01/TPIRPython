@@ -1,6 +1,7 @@
 from prize import *
 from grocgame import *
 from singleprize import *
+from cargame import *
 
 def display_main_menu():
     print("1. Grocery games")
@@ -228,6 +229,9 @@ while Loop:
             cgs = input("Select a pricing game: ")
             if cgs == "1":
                 print("You picked Card Game")
+            elif cgs == "6":
+                os.system('cls')
+                play_luckyseven()
             elif cgs == "13":
                 CarLoop = False
                 os.system('cls')

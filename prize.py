@@ -9,6 +9,9 @@ med_path = "\prizes\medium.txt"
 larg_path = "\prizes\large.txt"
 car_path = "\prizes\car.txt"
 
+# Misc data
+max_car_price = 35000
+
 def endgame():
     input("Press any key to continue: ")
     os.system('cls') # clear the screen  
