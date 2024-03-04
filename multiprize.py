@@ -2,6 +2,88 @@ from prize import *
 from random import randrange
 import random
 
+# Clock Game
+def play_clockgame():
+    all_items = [] # generate the item database
+    file = dir_path + med_path # generate the filepath to the item bank
+    print("\nCLOCK GAME")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (int(Medium(*line.split()).price) < 1000):
+            all_items.append(Medium(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    ids = random.sample(range(0, size+1), 2) # pick two different item IDs
+    items = [] # generate the items
+
+    # set all the items
+    for number in range (0, 2):
+       item = Medium(all_items[ids[number]].description, all_items[ids[number]].shortname, all_items[ids[number]].price)
+       items.append(item)
+
+    chances = 45 # instead of a clock, the player will have 45 chances
+    won1 = False # determines if the player has won the first prize
+    won2 = False # determines if the player has won the second prize
+
+    # display the two prizes
+    print("1. " + items[0].showPrize())
+    print("2. " + items[1].showPrize())
+
+    while ( (chances > 0 ) and (not won1) ):
+        print("Chances left: " + str(chances))
+        bidding = True
+        while (bidding):
+            bid = input("Your bid on the " + items[0].showShortName() + ": $")
+            try:
+                bid = int(bid)
+            except ValueError:
+                continue
+            else:
+                bidding = False
+        if (bid == int(items[0].price)): # guessed correctly
+            won1 = True
+        elif (int(items[0].price) > bid): # HIGHER
+            print("HIGHER")
+            chances -= 1
+        else:   # LOWER
+            print("LOWER")
+            chances -= 1
+
+    if (won1): # message if player won first prize
+        print("You got it! On to the next item...\n")
+
+    while ( (chances > 0) and (won1) and (not won2) ):
+        print("Chances left: " + str(chances))
+        bidding = True
+        while (bidding):
+            bid = input("Your bid on the " + items[1].showShortName() + ": $")
+            try:
+                bid = int(bid)
+            except ValueError:
+                continue
+            else:
+                bidding = False
+        if (bid == int(items[1].price)): # guessed correctly
+            won2 = True
+        elif (int(items[1].price) > bid): # HIGHER
+            print("HIGHER")
+            chances -= 1
+        else:   # LOWER
+            print("LOWER")
+            chances -= 1
+
+    # results
+    if (won1 and won2): # won both prizes
+        print("\nCongratulations, you win both prizes!")
+    elif (won1 and not won2): # won first prize
+        print("\nWell, at least you won the " + items[0].showShortName() + ".")
+    else:
+        print("\nSorry, you lose.")
+
+    endgame()
+
+
 # Most Expensive
 def play_mostexpensive():
     
@@ -15,7 +97,7 @@ def play_mostexpensive():
             all_items.append(Medium(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 3) # pick five different item IDs
+    ids = random.sample(range(0, size+1), 3) # pick three different item IDs
     items = [] # generate the items
 
     # set all the items
@@ -73,7 +155,7 @@ def play_onewrongprice():
             all_items.append(Medium(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 3) # pick five different item IDs
+    ids = random.sample(range(0, size+1), 3) # pick three different item IDs
     items = [] # generate the items
 
     # set all the items

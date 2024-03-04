@@ -219,6 +219,9 @@ while Loop:
             mul = input("Select a pricing game: ")
             if mul == "1":
                 print("You picked Bargain Game")
+            elif mul == "2":
+                os.system('cls')
+                play_clockgame()
             elif mul == "8":
                 os.system('cls')
                 play_mostexpensive()
