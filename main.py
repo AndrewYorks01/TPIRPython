@@ -1,5 +1,6 @@
 from prize import *
 from grocgame import *
+from smallprize import *
 from singleprize import *
 from multiprize import *
 from cargame import *
@@ -173,6 +174,9 @@ while Loop:
             sma = input("Select a pricing game: ")
             if sma == "1":
                 print("You picked Back to '72")
+            elif sma == "2":
+                os.system('cls')
+                play_bonusgame()
             elif sma == "6":
                 SmalLoop = False
                 os.system('cls')
