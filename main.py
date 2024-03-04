@@ -218,6 +218,9 @@ while Loop:
             elif mul == "8":
                 os.system('cls')
                 play_mostexpensive()
+            elif mul == "10":
+                os.system('cls')
+                play_onewrongprice()
             elif mul == "18":
                 MultLoop = False
                 os.system('cls')
