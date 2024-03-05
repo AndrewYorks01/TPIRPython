@@ -159,6 +159,9 @@ while Loop:
             elif gro == "6":
                 os.system('cls')
                 play_pickapair()
+            elif gro == "7":
+                os.system('cls')
+                play_vendoprice()
             elif gro == "8":
                 GrocLoop = False
                 os.system('cls')

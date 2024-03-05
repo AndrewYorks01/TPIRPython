@@ -541,7 +541,102 @@ def play_pickapair():
 
     endgame()
 
-    
+# Vend-o-Price
+def play_vendoprice():
+    ggItems = [] # generate the item database
+    file = dir_path + vend_path # generate the filepath to the item bank
+    print("\nVEND-O-PRICE")
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        ggItems.append(Grocery(*line.split()))
+
+    size = len(ggItems) # get the size of the item bank
+    ids = random.sample(range(0, size), 3) # pick three different item IDs
+    items = [] # generate the items
+
+    # set all the grocery items
+    for number in range (0, 3):
+       item = Grocery(ggItems[ids[number]].description, ggItems[ids[number]].shortname, ggItems[ids[number]].price)
+       items.append(item)
+
+    items.sort(key=lambda x: x.price, reverse=False) # sort the items from least to most expensive
+
+    # set the multipliers for each item
+    multiplier1 = random.randint(7, 9)
+    multiplier2 = multiplier1
+    while (multiplier2 == multiplier1):
+        multiplier2 = random.randint(5, 7)
+    multiplier3 = multiplier2
+    while (multiplier3 == multiplier2):
+        multiplier3 = random.randint(3, 5)
+
+    # get the total of each shelf
+    shelf1Total = float(float(items[0].price) * int(multiplier1))
+    shelf2Total = float(float(items[1].price) * int(multiplier2))
+    shelf3Total = float(float(items[2].price) * int(multiplier3))
+
+    # beginning of gameplay
+    print("1. " + items[0].showPrize() + " x" + str(multiplier1))
+    print("2. " + items[1].showPrize() + " x" + str(multiplier2))
+    print("3. " + items[2].showPrize() + " x" + str(multiplier3))
+
+    # player input
+    selecting = True
+    while (selecting):
+        player_choice = input("Which shelf is the most expensive?: ")
+        try:
+            player_choice = int(player_choice)
+        except ValueError:
+            continue
+        if 1 <= player_choice <= 3:
+            selecting = False
+
+    # determine the shelves the player didn't choose
+    if (player_choice == 1):
+        first = 2
+        second = 3
+        final = 1
+        firstMul = multiplier2
+        secondMul = multiplier3
+        finalMul = multiplier1
+        firstTot = shelf2Total
+        secondTot = shelf3Total
+        finalTot = shelf1Total
+    elif (player_choice == 2):
+        first = 1
+        second = 3
+        final = 2
+        firstMul = multiplier1
+        secondMul = multiplier3
+        finalMul = multiplier2
+        firstTot = shelf1Total
+        secondTot = shelf3Total
+        finalTot = shelf2Total
+    else:
+        first = 1
+        second = 2
+        final = 3
+        firstMul = multiplier1
+        secondMul = multiplier2
+        finalMul = multiplier3
+        firstTot = shelf1Total
+        secondTot = shelf2Total
+        finalTot = shelf3Total
+
+    # reveals
+    print() # line break
+    input("The total of shelf #" + str(first) + " is " + items[first-1].showARP() + " x " + str(firstMul) + " = " + str(f"${firstTot:.2f}") + " ")
+    input("The total of shelf #" + str(second) + " is " + items[second-1].showARP() + " x " + str(secondMul) + " = " + str(f"${secondTot:.2f}") + " ")
+    print("The total of shelf #" + str(final) + " is " + items[final-1].showARP() + " x " + str(finalMul) + " = " + str(f"${finalTot:.2f}") + " ")
+    if ( (finalTot >= firstTot) and (finalTot >= secondTot) ):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+
+
+    endgame()
+
         
 
         
