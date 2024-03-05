@@ -30,7 +30,7 @@ def play_bonusgame():
         all_items.append(Small(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 4) # pick five different item IDs
+    ids = random.sample(range(0, size), 4) # pick four different item IDs
     items = [] # generate the items
     controlled = [False, False, False, False] # spaces the player has controlled
     bonus_window = randrange(4) # window with the bonus

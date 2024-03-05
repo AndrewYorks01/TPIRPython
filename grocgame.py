@@ -20,16 +20,11 @@ def compatible_for_bullseye(price):
 
 def test():
     print("TEST")
-    items = []
-    first = Grocery("V8 Juice", "JUICE", 3.15)
-    second = Grocery("Hot Pockets", "PIZZA SNACK", 2.49)
-    third = Grocery("Alberto V05", "SHAMPOO", 3.49)
-    items.append(first)
-    items.append(second)
-    items.append(third)
-    random.shuffle(items)
-    for i, item in enumerate(items):
-        print(str(i+1) + ". " + item.showPrize())
+    max = int(3)
+    size = int(3)
+    ids = random.sample(range(0, max), size)
+    for n in range (0, size):
+        print(ids[n])
 
 # Bullseye
 def play_bullseye():
@@ -43,7 +38,7 @@ def play_bullseye():
             ggItems.append(Grocery(*line.split()))
 
     size = len(ggItems) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 5) # pick five different item IDs
+    ids = random.sample(range(0, size), 5) # pick five different item IDs
     items = [] # generate the items
     picked = [False, False, False, False, False] # bools that check if each item has been purchased
     has_marking = [False, False, False, False, False] # determines if a chosen prize is on the board (between $2-$10)
@@ -158,7 +153,7 @@ def play_checkout():
         ggItems.append(Grocery(*line.split()))
     
     size = len(ggItems) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 5) # pick five different item IDs
+    ids = random.sample(range(0, size), 5) # pick five different item IDs
     items = [] # generate the items
 
     # set all the grocery items
@@ -217,7 +212,7 @@ def play_grocerygame():
         ggItems.append(Grocery(*line.split()))
     
     size = len(ggItems) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 5) # pick five different item IDs
+    ids = random.sample(range(0, size), 5) # pick five different item IDs
     items = [] # generate the items
     picked = [False, False, False, False, False] # bools that check if each item has been purchased
     boughtFive = False # bools that check if all five items have been purchased
@@ -315,7 +310,7 @@ def play_hilo():
         ggItems.append(Grocery(*line.split()))
     
     size = len(ggItems) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 6) # pick six different item IDs
+    ids = random.sample(range(0, size), 6) # pick six different item IDs
     items = [] # generate the items
     picked = [False, False, False, False, False, False] # bools that check if each item has been chosen
     hiPrices = [0.00, 0.00, 0.00] # prices on the high row

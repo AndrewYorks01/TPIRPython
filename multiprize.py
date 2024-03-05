@@ -14,7 +14,7 @@ def play_clockgame():
             all_items.append(Medium(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 2) # pick two different item IDs
+    ids = random.sample(range(0, size), 2) # pick two different item IDs
     items = [] # generate the items
 
     # set all the items
@@ -83,7 +83,6 @@ def play_clockgame():
 
     endgame()
 
-
 # Most Expensive
 def play_mostexpensive():
     
@@ -97,7 +96,7 @@ def play_mostexpensive():
             all_items.append(Medium(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 3) # pick three different item IDs
+    ids = random.sample(range(0, size), 3) # pick three different item IDs
     items = [] # generate the items
 
     # set all the items
@@ -155,7 +154,7 @@ def play_onewrongprice():
             all_items.append(Medium(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size+1), 3) # pick three different item IDs
+    ids = random.sample(range(0, size), 3) # pick three different item IDs
     items = [] # generate the items
 
     # set all the items
