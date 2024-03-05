@@ -240,6 +240,9 @@ while Loop:
             elif mul == "10":
                 os.system('cls')
                 play_onewrongprice()
+            elif mul == "15":
+                os.system('cls')
+                play_switch()
             elif mul == "18":
                 MultLoop = False
                 os.system('cls')
