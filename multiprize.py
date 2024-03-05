@@ -83,6 +83,74 @@ def play_clockgame():
 
     endgame()
 
+# Do the Math
+def play_dothemath():
+    all_items = [] # generate the item database
+    file = dir_path + med_path # generate the filepath to the item bank
+    print("\nDO THE MATH")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (int(Medium(*line.split()).price) >= 1000):
+            all_items.append(Medium(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    items = [] # generate the items
+
+    # create a setup
+    setup = False
+    while (not setup):
+      ids = random.sample(range(0, size), 2) # pick two different item IDs
+      first = ids[0]
+      second = ids[1]
+      # hold items
+      temp1 = Medium(all_items[first].description, all_items[first].shortname, all_items[first].price)
+      temp2 = Medium(all_items[second].description, all_items[second].shortname, all_items[second].price)
+      # hold prices
+      tprice1 = int(all_items[first].price)
+      tprice2 = int(all_items[second].price)
+      if ( ((abs(tprice1 - tprice2 )) >= 100) ):
+          items.append(temp1)
+          items.append(temp2)
+          setup = True
+
+    # cash bonus
+    middle = abs(tprice1 - tprice2)
+
+    # determines what the correct operation will be (if 0, PLUS, if 1, MINUS)
+    if (tprice1 < tprice2):
+        operation = 0
+    else:
+        operation = 1
+    
+    # show the prizes
+    print("1. " + items[0].showPrize())
+    print("2. " + items[1].showPrize())
+    print() # line break
+    print("1. " + items[0].showShortName() + " + $" + str(middle) + " = " + items[1].showShortName())
+    print("2. " + items[0].showShortName() + " - $" + str(middle) + " = " + items[1].showShortName())
+
+    # select an equation, ensuring proper input
+    choosing = True
+    while (choosing):
+        player_choice = input("Which equation (enter the number) is correct?: ")
+        try:
+            player_choice = int(player_choice)
+        except ValueError:
+            continue
+        if ( (player_choice == 1) or (player_choice == 2) ):
+            choosing = False
+
+    print() # line break
+    input("The actual retail price of the " + items[0].showShortName() + " is " + items[0].showARP())
+    print("The actual retail price of the " + items[1].showShortName() + " is " + items[1].showARP())
+    if (player_choice-1 == operation):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+    endgame()  
+
 # Most Expensive
 def play_mostexpensive():
     

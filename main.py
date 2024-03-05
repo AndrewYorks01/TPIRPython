@@ -231,6 +231,9 @@ while Loop:
             elif mul == "2":
                 os.system('cls')
                 play_clockgame()
+            elif mul == "4":
+                os.system('cls')
+                play_dothemath()
             elif mul == "8":
                 os.system('cls')
                 play_mostexpensive()
