@@ -48,6 +48,48 @@ def compatible_for_sidebyside(price):
         else:
             return True
 
+# Check Game
+def play_checkgame():
+    items = [] # generate the item database
+    file = dir_path + larg_path # generate the filepath to the item bank
+    print("\nCHECK GAME")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (int(Large(*line.split()).price) < 8000):
+            items.append(Large(*line.split()))
+
+    size = len(items) # get the size of the item bank
+    prize_id = randrange(size) # pick a prize ID
+    prize = Large(items[prize_id].description, items[prize_id].shortname, items[prize_id].price) # pick the prize with the chosen ID
+
+    print(prize.showPrize()) # show the prize
+    print() # line break
+
+    print("AT LEAST $8,000 BUT NOT OVER $9,000")
+
+    # enter the value of the check
+    signing = True
+    while signing:
+        value = input("How much will you write the check for?: $")
+        try:
+            value = int(value)
+        except ValueError:
+            continue
+        else:
+            signing = False
+
+    # results
+    input("\nYou wrote the check for $" + str(value) + " ")
+    print("The actual retail price of the prize is " + prize.showARP())
+    total = int(value) + int(prize.price) # get total
+    print("For a total of $" + str(total))
+    if (8000 <= total <= 9000):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+    endgame()
+
 # Coming or Going
 def play_comingorgoing():
     items = [] # generate the item database

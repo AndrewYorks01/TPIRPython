@@ -192,6 +192,9 @@ while Loop:
             sng = input("Select a pricing game: ")
             if sng == "1":
                 print("You picked Balance Game")
+            elif sng == "3":
+                os.system('cls')
+                play_checkgame()
             elif sng == "4":
                 os.system('cls')
                 play_comingorgoing()
