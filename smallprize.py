@@ -88,3 +88,82 @@ def play_bonusgame():
         print("Sorry, you lose.")
 
     endgame()
+
+# Cliff Hangers
+def play_cliffhangers():
+    all_items = [] # generate the item database
+    file = dir_path + smal_path # generate the filepath to the item bank
+    print("\nCLIFF HANGERS") 
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        all_items.append(Small(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    items = [] # generate the items
+
+    # Checks for each item
+    found_item1 = False
+    found_item2 = False
+    found_item3 = False
+
+    # find prizes that meet the criteria
+    while (not found_item1): # item #1
+        first = randrange(size)
+        temp1 = Small(all_items[first].description, all_items[first].shortname, all_items[first].price)
+        if (15 <= int(temp1.price) <= 25):
+            found_item1 = True
+            items.append(temp1)
+
+    while (not found_item2): # item #2
+        second = first # make sure to pick a different ID
+        while (second == first):
+            second = randrange(size)
+        temp2 = Small(all_items[second].description, all_items[second].shortname, all_items[second].price)
+        if (25 <= int(temp2.price) <= 35):
+            found_item2 = True
+            items.append(temp2)
+        
+    while (not found_item3): # item #3
+        third = first # make sure to pick a different ID
+        while ((third == first) or (third == second)):
+            third = randrange(size)
+        temp3 = Small(all_items[third].description, all_items[third].shortname, all_items[third].price)
+        if (35 <= int(temp3.price) <= 45):
+            found_item3 = True
+            items.append(temp3)
+
+    steps = 0 # Position of the mountain climber
+    lost = False # check if the player has lost
+
+    for on in range (0, 3):
+        if (not lost):
+            print("Position: " + str(steps))
+            print(str(on+1) + ". " + items[on].showPrize())
+            guessing = True
+            while guessing:
+                guess = input("What is the price?: $")
+                try:
+                    guess = int(guess)
+                except ValueError:
+                    continue
+                else:
+                    guessing = False
+            print("The actual retail price is " + items[on].showARP())
+            difference = abs(guess - int(items[on].price)) # difference between player's guess and ARP
+            steps += difference
+            if (difference == 0): # bid is exactly right
+                print("You were exactly right!")
+            if (difference != 0):
+                print("You were off by $" + str(difference))
+            if (steps > 25): # climber falls off the cliff
+                lost = True
+            print() # empty line
+
+    if (lost):
+        print("Sorry, you lose.")
+    else:
+        print("Position: " + str(steps))
+        print("Congratulations, you win!")
+
+    endgame()

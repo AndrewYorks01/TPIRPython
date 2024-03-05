@@ -180,6 +180,9 @@ while Loop:
             elif sma == "2":
                 os.system('cls')
                 play_bonusgame()
+            elif sma == "3":
+                os.system('cls')
+                play_cliffhangers()
             elif sma == "6":
                 SmalLoop = False
                 os.system('cls')
