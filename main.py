@@ -237,6 +237,9 @@ while Loop:
             elif mul == "8":
                 os.system('cls')
                 play_mostexpensive()
+            elif mul == "9":
+                os.system('cls')
+                play_onerightprice()
             elif mul == "10":
                 os.system('cls')
                 play_onewrongprice()

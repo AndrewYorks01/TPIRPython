@@ -210,6 +210,67 @@ def play_mostexpensive():
 
     endgame()
 
+# One Right Price
+def play_onerightprice():
+    all_items = [] # generate the item database
+    file = dir_path + med_path # generate the filepath to the item bank
+    print("\nONE RIGHT PRICE")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (int(Medium(*line.split()).price) >= 1000):
+            all_items.append(Medium(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    items = [] # generate the items
+
+    # create a setup
+    setup = False
+    while (not setup):
+      ids = random.sample(range(0, size), 2) # pick two different item IDs
+      first = ids[0]
+      second = ids[1]
+      # hold items
+      temp1 = Medium(all_items[first].description, all_items[first].shortname, all_items[first].price)
+      temp2 = Medium(all_items[second].description, all_items[second].shortname, all_items[second].price)
+      # hold prices
+      tprice1 = int(all_items[first].price)
+      tprice2 = int(all_items[second].price)
+      if ( ((abs(tprice1 - tprice2 )) >= 100) ):
+          items.append(temp1)
+          items.append(temp2)
+          setup = True
+
+    right_id = randrange(2) # ID of the item with the right price
+    right_price = int(items[right_id].price) # set the one right price
+
+    # Gameplay
+    print() # line break
+    print("One right price: $" + str(right_price))
+    print("1. " + items[0].showPrize())
+    print("2. " + items[1].showPrize())
+
+    # make a choice, ensuring proper input
+    choosing = True
+    while (choosing):
+        player_choice = input("Which prize (enter the number) has the one right price?: ")
+        try:
+            player_choice = int(player_choice)
+        except ValueError:
+            continue
+        if ( (player_choice == 1) or (player_choice == 2) ):
+            choosing = False
+
+    # results
+    print() # line break
+    print("The actual retail price of the " + items[player_choice-1].showShortName() + " is " + items[player_choice-1].showARP())
+    if (int(items[player_choice-1].price) == right_price):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+    endgame()
+
 # One Wrong Price
 def play_onewrongprice():
     all_items = [] # generate the item database
