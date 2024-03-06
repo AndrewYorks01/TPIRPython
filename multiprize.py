@@ -2,6 +2,85 @@ from prize import *
 from random import randrange
 import random
 
+# Bargain Game
+def play_bargaingame():
+    all_items = [] # generate the item database
+    file = dir_path + med_path # generate the filepath to the item bank
+    print("\nBARGAIN GAME")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (int(Medium(*line.split()).price) > 1600):
+            all_items.append(Medium(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    ids = random.sample(range(0, size), 2) # pick two different item IDs
+    items = [] # generate the items
+
+    # set all the items
+    for number in range (0, 2):
+       item = Medium(all_items[ids[number]].description, all_items[ids[number]].shortname, all_items[ids[number]].price)
+       items.append(item)
+
+    # if 0, the prize on the left is the bigger bargain; if 1, the prize on the right is
+    bigger_bargain = randrange(2)
+    bargain1 = random.randint(3, 7) * 100
+    bargain2 = random.randint(8, 12) * 100
+
+    if (bigger_bargain == 0):
+        difference1 = int(items[0].price) - bargain2
+        difference2 = int(items[1].price) - bargain1
+    else:
+        difference1 = int(items[0].price) - bargain1
+        difference2 = int(items[1].price) - bargain2
+
+    # show setup
+    print("1. " + items[0].showPrize() + " - $" + str(difference1))
+    print("2. " + items[1].showPrize() + " - $" + str(difference2))
+    print() # line break
+
+    # select an item, ensuring proper input
+    choosing = True
+    while (choosing):
+        player_choice = input("Which price (enter the number) is the bigger bargain?: ")
+        try:
+            player_choice = int(player_choice)
+        except ValueError:
+            continue
+        if ( (player_choice == 1) or (player_choice == 2) ):
+            choosing = False
+
+    # set ID of item that the player didn't choose
+    if (player_choice == 1):
+        id = int(1)
+        if (bigger_bargain == 0):
+            dif_fir = bargain1
+            dif_sec = bargain2
+        else:
+            dif_fir = bargain2
+            dif_sec = bargain1
+    else:
+        id = int(0)
+        if (bigger_bargain == 0):
+            dif_fir = bargain2
+            dif_sec = bargain1
+        else:
+            dif_fir = bargain1
+            dif_sec = bargain2
+
+    print() # line break
+    print("The actual retail price of the " + items[id].showShortName() + " is " + items[id].showARP())
+    input("For a difference of $" + str(dif_fir) + " ")
+    print("\nThe actual retail price of the " + items[player_choice-1].showShortName() + " is " + items[player_choice-1].showARP())
+    print("For a difference of $" + str(dif_sec))
+    if (bigger_bargain == player_choice-1):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+    endgame()
+
+
 # Clock Game
 def play_clockgame():
     all_items = [] # generate the item database
