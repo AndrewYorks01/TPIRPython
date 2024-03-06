@@ -213,6 +213,9 @@ while Loop:
             elif sng == "11":
                 os.system('cls')
                 play_sidebyside()
+            elif sng == "12":
+                os.system('cls')
+                play_squeezeplay()
             elif sng == "13":
                 SingLoop = False
                 os.system('cls')

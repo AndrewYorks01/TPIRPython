@@ -309,3 +309,82 @@ def play_sidebyside():
         print("Sorry, you lose.")
 
     endgame()
+
+# Squeeze Play
+def play_squeezeplay():
+    items = [] # generate the item database
+    file = dir_path + larg_path # generate the filepath to the item bank
+    print("\nSQUEEZE PLAY")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        items.append(Large(*line.split()))
+
+    size = len(items) # get the size of the item bank
+    prize_id = randrange(size) # pick a prize ID
+    prize = Large(items[prize_id].description, items[prize_id].shortname, items[prize_id].price) # pick the prize with the chosen ID
+
+    digits = [int(i) for i in str(prize.price)] # put each digit into a list
+    space = randrange(3) # space where the extra digit is
+    extra = randrange(10) # extra digit
+    display = [0, 0, 0, 0, 0] # digits, with placeholder values
+
+    # fill in board with digits
+    if (space == 0): # the second digit is unnecessary
+        display[0] = digits[0]
+        display[1] = extra
+        display[2] = digits[1]
+        display[3] = digits[2]
+        display[4] = digits[3]
+    elif (space == 1): # the third digit is unnecessary
+        display[0] = digits[0]
+        display[1] = digits[1]
+        display[2] = extra
+        display[3] = digits[2]
+        display[4] = digits[3]
+    else:              # the fourth digit is unnecessary
+        display[0] = digits[0]
+        display[1] = digits[1]
+        display[2] = digits[2]
+        display[3] = extra
+        display[4] = digits[3]
+    
+    print(prize.showPrize()) # show the prize
+    print() # line break
+    print("$" + str(display[0]) + str(display[1]) + str(display[2]) + str(display[3]) + str(display[4]))
+    print("$-ABC-")
+
+    # Choose a digit to eliminate. The digit's position will be stored in the variable elim.
+    choosing = True
+    while choosing:
+        player_choice = input("Which middle digit (enter a letter A-C) do you want to eliminate?: ")
+        if ( (player_choice == "A") or (player_choice == "a") ):
+            elim = 1
+            choosing = False
+        elif ( (player_choice == "B") or (player_choice == "b") ):
+            elim = 2
+            choosing = False
+        elif ( (player_choice == "C") or (player_choice == "c") ):
+            elim = 3
+            choosing = False
+        else:
+            pass
+
+    # The eliminated digit will be stored in the variable gone, and the new price will be stored in player_price.
+    gone = display[int(elim)]
+    if (elim == 1):
+        player_price = int(display[0])*1000 + int(display[2])*100 + int(display[3])*10 + int(display[4])
+    elif (elim == 2):
+        player_price = int(display[0])*1000 + int(display[1])*100 + int(display[3])*10 + int(display[4])
+    else:
+        player_price = int(display[0])*1000 + int(display[1])*100 + int(display[2])*10 + int(display[4])
+
+    print() # line break
+    print("You've eliminated the " + str(gone) + " and made the price $" + str(player_price))
+    print("The actual retail price is " + prize.showARP())
+    if (int(player_price) == int(prize.price)):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+    endgame()
