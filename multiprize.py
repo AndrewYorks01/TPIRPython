@@ -325,6 +325,83 @@ def play_onewrongprice():
 
     endgame()
 
+# Shopping Spree
+def play_shoppingspree():
+    all_items = [] # generate the item database
+    file = dir_path + med_path # generate the filepath to the item bank
+    print("\nSHOPPING SPREE")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        all_items.append(Medium(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    ids = random.sample(range(0, size), 4) # pick three different item IDs
+    items = [] # generate the items
+
+    # set all the items
+    for number in range (0, 4):
+       item = Medium(all_items[ids[number]].description, all_items[ids[number]].shortname, all_items[ids[number]].price)
+       items.append(item)
+
+    # set gameplay stuff
+    spent_so_far = 0 # how much the player has spent
+    bought = [False, False, False, False] # determines which items the player has bought
+    picks = 0 # items the palyer has chosen
+
+    # calculate the minimum amount 
+    temps = [int(items[0].price), int(items[1].price), int(items[2].price), int(items[3].price)] # prices of each item
+    temps.sort() # sort from smallest to largest
+
+    # to calculate the minimum amount, take the values of the three most expensive items
+    # and round it down to the nearest hundred.
+    spending_amt = temps[1] + temps[2] + temps[3]
+    round_off = spending_amt % 100
+    spending_amt -= round_off
+
+    # begin gameplay
+    while (picks < 3):
+        # show the items
+        for p in range (0, 4):
+            if (bought[p]):
+                print(str(p+1) + ". " + items[p].showPrize() + " - " + items[p].showARP())
+            else:
+                print(str(p+1) + ". " + items[p].showPrize())
+        print("Spending amount: $" + str(spending_amt))
+        print("Left to spend: $" + str(spending_amt - spent_so_far))
+        # pick an item
+        selecting = True
+        while (selecting):
+            player_choice = input("Which item (enter the number) would you like to buy?: ")
+            try:
+                player_choice = int(player_choice)
+            except ValueError: # not an int
+                continue
+            if ( (player_choice < 1) or (player_choice > 4) ): # not between 1 and 4
+                pass
+            elif (bought[player_choice - 1]): # already purchased the item
+                pass
+            else:
+                selecting = False
+        
+        print() # line break
+        print("The actual retail price of the " + items[player_choice-1].showShortName() + " is " + items[player_choice-1].showARP())
+        bought[player_choice-1] = True
+        spent_so_far += int(items[player_choice-1].price) 
+        picks += 1
+        print() # line break
+
+    # results
+    print("Spending amount: $" + str(spending_amt))
+    print("Spent so far: $" + str(spent_so_far))
+    print() # line break
+    if (spent_so_far >= spending_amt):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+    
+    endgame()
+
 # Switch?
 def play_switch():
     all_items = [] # generate the item database

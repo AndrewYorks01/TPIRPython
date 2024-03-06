@@ -246,6 +246,9 @@ while Loop:
             elif mul == "10":
                 os.system('cls')
                 play_onewrongprice()
+            elif mul == "13":
+                os.system('cls')
+                play_shoppingspree()
             elif mul == "15":
                 os.system('cls')
                 play_switch()
