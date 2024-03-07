@@ -271,6 +271,9 @@ while Loop:
             elif cgs == "6":
                 os.system('cls')
                 play_luckyseven()
+            elif cgs == "7":
+                os.system('cls')
+                play_moneygame()
             elif cgs == "13":
                 CarLoop = False
                 os.system('cls')
