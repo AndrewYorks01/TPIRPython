@@ -162,6 +162,82 @@ def play_clockgame():
 
     endgame()
 
+# Danger Price
+def play_dangerprice():
+    all_items = [] # generate the item database
+    file = dir_path + med_path # generate the filepath to the item bank
+    print("\nDANGER PRICE")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        all_items.append(Medium(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    items = [] # generate the items
+
+    # pick 4 items, making sure they have different prices
+    chose_items = False
+    while (not chose_items):
+        ids = random.sample(range(0, size), 4) # pick four different item IDs
+        price1 = all_items[ids[0]].price
+        price2 = all_items[ids[1]].price
+        price3 = all_items[ids[2]].price
+        price4 = all_items[ids[3]].price
+        # make sure none of the prices equal each other
+        if ( (price1 != price2) and (price1 != price3) and (price1 != price4) and (price2 != price3) and (price2 != price4) and (price3 != price4) ):
+            chose_items = True
+
+    # set all the items
+    for number in range (0, 4):
+       item = Medium(all_items[ids[number]].description, all_items[ids[number]].shortname, all_items[ids[number]].price)
+       items.append(item)
+
+    # set up gameplay stuff
+    danger_id = randrange(4) # id of prize with danger price
+    picks = 0 # number of items the player has chosen
+    lost = False
+    danger_price = items[danger_id].price
+    picked = [False, False, False, False] # determines prizes player has chosen
+    
+    # begin gameplay
+    while ( (picks < 3) and (not lost) ):
+        print("Danger price: $" + str(danger_price))
+        # show the items
+        for p in range (0, 4):
+            if (picked[p]):
+                print(str(p+1) + ". " + items[p].showPrize() + " - " + items[p].showARP())
+            else:
+                print(str(p+1) + ". " + items[p].showPrize())
+        # pick an item
+        selecting = True
+        while (selecting):
+            player_choice = input("Which item (enter the number) would you like to pick?: ")
+            try:
+                player_choice = int(player_choice)
+            except ValueError: # not an int
+                continue
+            if ( (player_choice < 1) or (player_choice > 4) ): # not between 1 and 4
+                pass
+            elif (picked[player_choice - 1]): # already purchased the item
+                pass
+            else:
+                selecting = False
+        
+        print("The actual retail price of the " + items[player_choice-1].showShortName() + " is " + items[player_choice-1].showARP())
+        print() # line break
+        if (items[player_choice-1].price == danger_price):
+            lost = True
+        else:
+            picked[player_choice-1] = True
+            picks += 1
+
+    if (lost):
+        print("Sorry, you lose.")
+    else:
+        print("Congratulations, you win!")
+
+    endgame()
+
 # Do the Math
 def play_dothemath():
     all_items = [] # generate the item database
@@ -415,7 +491,7 @@ def play_shoppingspree():
         all_items.append(Medium(*line.split()))
 
     size = len(all_items) # get the size of the item bank
-    ids = random.sample(range(0, size), 4) # pick three different item IDs
+    ids = random.sample(range(0, size), 4) # pick four different item IDs
     items = [] # generate the items
 
     # set all the items
@@ -463,7 +539,6 @@ def play_shoppingspree():
             else:
                 selecting = False
         
-        print() # line break
         print("The actual retail price of the " + items[player_choice-1].showShortName() + " is " + items[player_choice-1].showARP())
         bought[player_choice-1] = True
         spent_so_far += int(items[player_choice-1].price) 

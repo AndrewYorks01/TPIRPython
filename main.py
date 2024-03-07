@@ -235,6 +235,9 @@ while Loop:
             elif mul == "2":
                 os.system('cls')
                 play_clockgame()
+            elif mul == "3":
+                os.system('cls')
+                play_dangerprice()
             elif mul == "4":
                 os.system('cls')
                 play_dothemath()
