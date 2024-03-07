@@ -238,7 +238,7 @@ def play_moneygame():
                     chosen_space = 4
                     choosing = False
                     valid = True
-            elif ( (player_choice == "F") or (player_choice == "e") ): # center-right
+            elif ( (player_choice == "F") or (player_choice == "f") ): # center-right
                 if (not picked[5]):
                     picked[5] = True
                     chosen_space = 5
