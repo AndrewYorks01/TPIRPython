@@ -167,3 +167,117 @@ def play_cliffhangers():
         print("Congratulations, you win!")
 
     endgame()
+
+# Shell Game
+def play_shellgame():
+    all_items = [] # generate the item database
+    file = dir_path + smal_path # generate the filepath to the item bank
+    print("\nSHELL GAME") 
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        all_items.append(Small(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    ids = random.sample(range(0, size), 4) # pick four different item IDs
+    items = [] # generate the items
+    has_chip = [" ", " ", " ", " "] # shells with a chip next to them
+    ball_shell = randrange(4) # shell with the ball under it
+    wrongPrices = [0, 0, 0, 0] # wrong prices
+    chips_earned = 0
+
+    # if these are set to 0, the wrong price will be too low (guess HIGHER)
+    # if these are set to 1, the wrong price will be too high (guess LOWER)
+    wrongValues = [2, 2, 2, 2] # initialization
+    for v in range (0, 4):
+        wrongValues[v] = randrange(2)
+
+    # set all the items
+    for number in range (0, 4):
+       item = Small(all_items[ids[number]].description, all_items[ids[number]].shortname, all_items[ids[number]].price)
+       items.append(item)
+
+    # set the wrong prices
+    for pr in range (0, 4):
+        wrongPrices[pr] = generate_hl_price(int(items[pr].price), int(wrongValues[pr]))
+
+    # start gameplay
+    for on in range(0, 4):
+        placing_chip = False
+        print("O O O O")
+        print(has_chip[0] + " " + has_chip[1] + " " + has_chip[2] + " " + has_chip[3])
+        print(str(on+1) + ". " + items[int(on)].showPrize()) # display the item
+        print("$" + str(wrongPrices[int(on)])) # display the wrong price
+        guessing = True # loop until the player inputs an H or an L in either case
+        while (guessing):
+            player_choice = input("This price is wrong. \nIs the correct price higher (H) or lower (L)?: ")
+            if ((player_choice == "H") or (player_choice == "h") or (player_choice == "L") or (player_choice == "l") ):
+                guessing = False # exit loop
+            else:
+                pass # go through loop again
+        print("The actual retail price is " + items[on].showARP())
+
+        # correct guess of HIGHER
+        if ( ((player_choice == "H") or (player_choice == "h")) and ( int(items[on].price) >= int(wrongPrices[int(on)]) ) ):
+            chips_earned += 1
+            print("That's correct!")
+            placing_chip = True
+
+        # correct guess of LOWER
+        elif ( ((player_choice == "L") or (player_choice == "l")) and ( int(items[on].price) <= int(wrongPrices[int(on)]) ) ):
+            chips_earned += 1
+            print("That's correct!")
+            placing_chip = True
+
+        else:
+            print("Sorry, that's not correct.")
+
+        if (placing_chip):
+            placing_loop = True
+            while (placing_loop):
+                shell_choice = input("Which shell (1-4) do you want to place a chip next to?: ")
+                try:
+                    shell_choice = int(shell_choice)
+                except ValueError:
+                    continue
+                if ( (shell_choice < 1) or (shell_choice > 4) ):
+                    pass
+                elif (has_chip[shell_choice-1] == "*"): # shell already has a ball under it
+                    pass
+                else:
+                    has_chip[shell_choice-1] = "*"
+                    placing_loop = False
+        print() # line break
+
+    # results
+    print("O O O O")
+    print(has_chip[0] + " " + has_chip[1] + " " + has_chip[2] + " " + has_chip[3])
+    
+    if (chips_earned == 0):
+        print("Sorry, you lose.")
+    elif (chips_earned == 4):
+        bonus_loop = True
+        while (bonus_loop):
+            bonus_chip = input("You won all 4 chips, but for a cash bonus, \nwhich shell has the ball behind it?: ")
+            try:
+                bonus_chip = int(bonus_chip)
+            except ValueError:
+                continue
+            if ( (shell_choice < 1) or (shell_choice > 4) ):
+                pass
+            else:
+                bonus_loop = False
+        print("The ball is under shell #" + str(ball_shell + 1))
+        if ( int(bonus_chip-1) == int(ball_shell) ):
+            print("Congratulations, you win the prize and a cash bonus!")
+        else:
+            print("You didn't win the cash bonus, but you did win the prize.")
+    else:
+        input("Let's see which shell the ball is behind... ")
+        print("The ball is under shell #" + str(ball_shell + 1))
+        if (has_chip[ball_shell] == "*"):
+            print("Congratulations, you win!")
+        else:
+            print("Sorry, you lose.")
+
+    endgame()

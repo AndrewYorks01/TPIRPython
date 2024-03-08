@@ -183,6 +183,9 @@ while Loop:
             elif sma == "3":
                 os.system('cls')
                 play_cliffhangers()
+            elif sma == "5":
+                os.system('cls')
+                play_shellgame()
             elif sma == "6":
                 SmalLoop = False
                 os.system('cls')
