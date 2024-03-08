@@ -298,4 +298,148 @@ def play_moneygame():
         print("Sorry, you lose. At least you won $" + str(money_earned) + ".")
 
     endgame()
+
+# That's Too Much!
+def play_thatstoomuch():
+    items = [] # generate the item database
+    file = dir_path + car_path # generate the filepath to the item bank
+    print("\nTHAT'S TOO MUCH!")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract only car prices without zeros and prices less than max_car_price
+        if ( (not has_zeros(Car(*line.split()).price)) and ( int(Car(*line.split()).price) < max_car_price) ):
+            items.append(Car(*line.split()))
+
+    size = len(items) # get the size of the item bank
+    prize_id = randrange(size) # pick a prize ID
+    car = Car(items[prize_id].model, items[prize_id].options, items[prize_id].price)
+    price = int(car.price)
+    
+    # gameplay stuff
+    prices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # row of prices with placeholder values
+    too_much = price + randrange(500, 1500) # the first price above the ARP
+    too_much_pos = randrange(6) # random space from 3 to 8
+
+    # initialize the price list
+    if (too_much_pos == 0): # third price is the first "TOO MUCH" price
+        prices[2] = too_much
+        prices[1] = too_much - randrange(500, 1500)
+        while (prices[1] >= price):
+            prices[1] = too_much - randrange(500, 1500)
+        prices[0] = prices[1] - randrange(500, 1500)
+        prices[3] = too_much + randrange(500, 1500)
+        prices[4] = prices[3] + randrange(500, 1500)
+        prices[5] = prices[4] + randrange(500, 1500)
+        prices[6] = prices[5] + randrange(500, 1500)
+        prices[7] = prices[6] + randrange(500, 1500)
+        prices[8] = prices[7] + randrange(500, 1500)
+        prices[9] = prices[8] + randrange(500, 1500)
+    elif (too_much_pos == 1): # fourth price is the first "TOO MUCH" price
+        prices[3] = too_much
+        prices[2] = too_much - randrange(500, 1500)
+        while (prices[2] >= price):
+            prices[2] = too_much - randrange(500, 1500)
+        prices[1] = prices[2] - randrange(500, 1500)
+        prices[0] = prices[1] - randrange(500, 1500)
+        prices[4] = too_much + randrange(500, 1500)
+        prices[5] = prices[4] + randrange(500, 1500)
+        prices[6] = prices[5] + randrange(500, 1500)
+        prices[7] = prices[6] + randrange(500, 1500)
+        prices[8] = prices[7] + randrange(500, 1500)
+        prices[9] = prices[8] + randrange(500, 1500)
+    elif (too_much_pos == 2): # fifth price is the first "TOO MUCH" price
+        prices[4] = too_much
+        prices[3] = too_much - randrange(500, 1500)
+        while (prices[3] >= price):
+            prices[3] = too_much - randrange(500, 1500)
+        prices[2] = prices[3] - randrange(500, 1500)
+        prices[1] = prices[2] - randrange(500, 1500)
+        prices[0] = prices[1] - randrange(500, 1500)
+        prices[5] = too_much + randrange(500, 1500)
+        prices[6] = prices[5] + randrange(500, 1500)
+        prices[7] = prices[6] + randrange(500, 1500)
+        prices[8] = prices[7] + randrange(500, 1500)
+        prices[9] = prices[8] + randrange(500, 1500)
+    elif (too_much_pos == 3): # sixth price is the first "TOO MUCH" price
+        prices[5] = too_much
+        prices[4] = too_much - randrange(500, 1500)
+        while (prices[4] >= price):
+            prices[4] = too_much - randrange(500, 1500)
+        prices[3] = prices[4] - randrange(500, 1500)
+        prices[2] = prices[3] - randrange(500, 1500)
+        prices[1] = prices[2] - randrange(500, 1500)
+        prices[0] = prices[1] - randrange(500, 1500)
+        prices[6] = too_much + randrange(500, 1500)
+        prices[7] = prices[6] + randrange(500, 1500)
+        prices[8] = prices[7] + randrange(500, 1500)
+        prices[9] = prices[8] + randrange(500, 1500)
+    elif (too_much_pos == 4): # seventh price is the first "TOO MUCH" price
+        prices[6] = too_much
+        prices[5] = too_much - randrange(500, 1500)
+        while (prices[5] >= price):
+            prices[5] = too_much - randrange(500, 1500)
+        prices[4] = prices[5] - randrange(500, 1500)
+        prices[3] = prices[4] - randrange(500, 1500)
+        prices[2] = prices[3] - randrange(500, 1500)
+        prices[1] = prices[2] - randrange(500, 1500)
+        prices[0] = prices[1] - randrange(500, 1500)
+        prices[7] = too_much + randrange(500, 1500)
+        prices[8] = prices[7] + randrange(500, 1500)
+        prices[9] = prices[8] + randrange(500, 1500)
+    else:   # eighth price is the first "TOO MUCH" price
+        prices[7] = too_much
+        prices[6] = too_much - randrange(500, 1500)
+        while (prices[6] >= price):
+            prices[6] = too_much - randrange(500, 1500)
+        prices[5] = prices[6] - randrange(500, 1500)
+        prices[4] = prices[5] - randrange(500, 1500)
+        prices[3] = prices[4] - randrange(500, 1500)
+        prices[2] = prices[3] - randrange(500, 1500)
+        prices[1] = prices[2] - randrange(500, 1500)
+        prices[0] = prices[1] - randrange(500, 1500)
+        prices[8] = too_much + randrange(500, 1500)
+        prices[9] = prices[8] + randrange(500, 1500)
+
+    on = 0 # price the player is on
+    stop = False
+    keep_going = False
+
+    print(car.showModel())
+    print("Comes with: " + car.showOptions())
+
+    # start gameplay
+    while ( (on < 9) and (not stop) ):
+        print() # line break
+        print(str(on+1) + ". $" + str(prices[on]))
+        choosing = True
+        while (choosing):
+            player_choice = input("Keep going (Y) or THAT'S TOO MUCH (N)?: ")
+            if ( (player_choice == "Y") or (player_choice == "y")):
+                keep_going = True
+                choosing = False
+            elif ( (player_choice == "N") or (player_choice == "n")):
+                choosing = False
+                stop = True
+            else:
+                pass
+            if (keep_going):
+                on += 1
+                keep_going = False
+
+    print() # line break
+    if (on == 9):
+        print("10. $" + str(prices[9]))
+        print("THAT'S TOO MUCH!")
+    else:
+        print("THAT'S TOO MUCH!")
+
+    # results
+    print() # line break
+    print("The actual retail price of the car is " + car.showARP())
+    if ( (on - 2) == too_much_pos):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+    endgame()  
  
