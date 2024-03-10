@@ -277,6 +277,18 @@ def play_dothemath():
         operation = 0
     else:
         operation = 1
+
+    # prevents negative operation from occurring
+    if ( (int(items[0].price) - middle < 0) and (operation == 0) ):
+        temp3 = Medium(items[0].description, items[0].shortname, items[0].price) # temp item
+        # swap the two items' positions
+        items[0].description = items[1].description
+        items[0].shortname = items[1].shortname
+        items[0].price = items[1].price
+        items[1].description = temp3.description
+        items[1].shortname = temp3.shortname
+        items[1].price = temp3.price
+        operation = 1 # change operation to MINUS
     
     # show the prizes
     print("1. " + items[0].showPrize())
