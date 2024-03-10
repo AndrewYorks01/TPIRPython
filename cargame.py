@@ -31,6 +31,61 @@ def mgspace(value):
     else:
         return str(v)
 
+# Bullseye (1972)
+def play_bullseye72():
+    items = [] # generate the item database
+    file = dir_path + car_path # generate the filepath to the item bank
+    print("\nBULLSEYE (1972)")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract only car prices without zeros and prices less than max_car_price
+        if ( (not has_zeros(Car(*line.split()).price)) and ( int(Car(*line.split()).price) < max_car_price) ):
+            items.append(Car(*line.split()))
+
+    size = len(items) # get the size of the item bank
+    prize_id = randrange(size) # pick a prize ID
+    car = Car(items[prize_id].model, items[prize_id].options, items[prize_id].price)
+    price = int(car.price)
+
+    # gameplay stuff
+    lower_bound = price - (price % 1000) # the car's price rounded down to the nearest 1000
+    upper_bound = lower_bound + 1000 # the car's price rounded up to the nearest 1000
+    chances = 7
+    won = False
+
+    print(car.showModel())
+    print("Comes with: " + car.showOptions())
+
+    # start gameplay
+    print("Range: $" + str(lower_bound) + " - $" + str(upper_bound))
+    while ((chances > 0) and (not won) ):
+        print() # line break
+        print("Chances left: " + str(chances))
+        bidding = True
+        while bidding:
+            bid = input("How much do you think the car is?: $")
+            try:
+                bid = int(bid)
+            except ValueError:
+                continue
+            else:
+                bidding = False
+        if (bid == price):
+            won = True
+        elif (price > bid):
+            print("The car's price is HIGHER than your bid")
+            chances -= 1
+        elif (price < bid):
+            print("The car's price is LOWER than your bid")
+            chances -= 1
+
+    print()
+    if (won):
+        print("Congratulations, you won! \nYou've accomplished a feat no contestant ever did!")
+    else:
+        print("Sorry, you lose. The price of the car was " + car.showARP() + ".")
+    endgame()
+
 # Lucky $even
 def play_luckyseven():
     items = [] # generate the item database

@@ -328,6 +328,9 @@ while Loop:
             ret = input("Select a pricing game: ")
             if ret == "1":
                 print("You picked Add 'em Up")
+            elif ret == "3":
+                os.system('cls')
+                play_bullseye72()
             elif ret == "18":
                 RetLoop = False
                 os.system('cls')
