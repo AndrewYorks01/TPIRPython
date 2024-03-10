@@ -10,7 +10,7 @@ def generate_hl_price(price, higher_or_lower):
     if (val == 0): # generate a fake price that's too low (HIGHER)
         if (p < 50):
             while (abs(p-result) < 5):
-                result = random.randint(8, p)
+                result = random.randint(7, p)
         else:
             while (abs(p-result) < 5):
                 result = random.randint(50, p)           
