@@ -19,6 +19,103 @@ def generate_hl_price(price, higher_or_lower):
             result = random.randint(p, p+20)
     return result
 
+# Back to '72
+def play_backto72():
+    all_items = [] # generate the item database
+    file = dir_path + back_path # generate the filepath to the item bank
+    print("\nBACK TO '72")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        all_items.append(Small(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    items = [] # generate the items
+
+    # Checks for each item
+    found_item1 = False
+    found_item2 = False
+    found_item3 = False
+
+    # find prizes that meet the criteria
+    while (not found_item1): # item #1
+        first = randrange(size)
+        temp1 = Small(all_items[first].description, all_items[first].shortname, all_items[first].price)
+        if (int(temp1.price) < 100):
+            found_item1 = True
+            items.append(temp1)
+
+    while (not found_item2): # item #2
+        second = first # make sure to pick a different ID
+        while (second == first):
+            second = randrange(size)
+        temp2 = Small(all_items[second].description, all_items[second].shortname, all_items[second].price)
+        if (int(temp2.price) < 100):
+            found_item2 = True
+            items.append(temp2)
+
+    while (not found_item3): # item #3
+        third = first # make sure to pick a different ID
+        while ((third == first) or (third == second)):
+            third = randrange(size)
+        temp3 = Small(all_items[third].description, all_items[third].shortname, all_items[third].price)
+        if (int(temp3.price) > 100):
+            found_item3 = True
+            items.append(temp3)
+
+    bank = 50 # money the player has left
+    lost = False
+
+    # begin gameplay
+    for i in range(0, 3):
+        if (not lost):
+            print() # line break
+            print("Range left: $" + str(bank))
+            print(str(i+1) + ". " + items[i].showPrize())
+            if (i < 2): # price range for first two items
+                if (int(items[i].price) <= 25):
+                    print("The price is between $0 and $50")
+                elif (int(items[i].price) <= 50):
+                    print("The price is between $25 and $75")
+                elif (int(items[i].price) <= 75):
+                    print("The price is between $50 and $100")
+                else:
+                    print("The price is between $75 and $125")
+            else: # price range for third item
+                if (int(items[i].price) <= 125):
+                    print("The price is between $50 and $150")
+                elif (int(items[i].price) <= 150):
+                    print("The price is between $75 and $175")
+                elif (int(items[i].price) <= 175):
+                    print("The price is between $100 and $200")
+                else:
+                    print("The price is between $125 and $225")
+            guessing = True
+            while guessing:
+                guess = input("How much did the item cost in 1972?: $")
+                try:
+                    guess = int(guess)
+                except ValueError:
+                    continue
+                else:
+                    guessing = False
+            print("The actual retail price is " + items[i].showARP())
+            difference = abs(guess - int(items[i].price))
+            print("For a difference of $" + str(difference))
+            bank -= difference
+            if (bank < 0):
+                lost = True
+
+    # results
+    print() # line break
+    if (bank >= 0):
+        print("Range left: $" + str(bank))
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+
+    endgame()     
+
 # Bonus Game
 def play_bonusgame():
     all_items = [] # generate the item database

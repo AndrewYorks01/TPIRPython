@@ -6,6 +6,7 @@ dir_path = str(pathlib.Path(__file__).parent.resolve())
 groc_path = "\prizes\grocery.txt"
 vend_path = "\prizes\\vopgrocery.txt" # the extra backslash here is an escape character, not a typo
 smal_path = "\prizes\small.txt"
+back_path = "\prizes\small72.txt"
 med_path = "\prizes\medium.txt"
 larg_path = "\prizes\large.txt"
 car_path = "\prizes\car.txt"

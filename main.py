@@ -176,7 +176,8 @@ while Loop:
             display_small_menu()
             sma = input("Select a pricing game: ")
             if sma == "1":
-                print("You picked Back to '72")
+                os.system('cls')
+                play_backto72()
             elif sma == "2":
                 os.system('cls')
                 play_bonusgame()
