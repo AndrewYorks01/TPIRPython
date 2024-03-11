@@ -184,6 +184,9 @@ while Loop:
             elif sma == "3":
                 os.system('cls')
                 play_cliffhangers()
+            elif sma == "4":
+                os.system('cls')
+                play_secretx()
             elif sma == "5":
                 os.system('cls')
                 play_shellgame()

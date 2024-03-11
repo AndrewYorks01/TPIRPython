@@ -19,6 +19,27 @@ def generate_hl_price(price, higher_or_lower):
             result = random.randint(p, p+20)
     return result
 
+# Generate a fake price in games like Secret "X".
+def generate_fake_price(price):
+    p = int(price)
+    result = p
+    if (p < 50):
+         while (abs(p-result) < 5):
+            result = random.randint(10, 50)
+    elif (50 <= p <= 100):
+        while (abs(p-result) < 5):
+            result = random.randint(50, 100)
+    elif (100 <= p <= 150):
+        while (abs(p-result) < 5):
+            result = random.randint(100, 150)
+    elif (150 <= p <= 200):
+        while (abs(p-result) < 5):
+            result = random.randint(150, 200)
+    else:
+        while (abs(p-result) < 5):
+            result = random.randint(200, 250) 
+    return result          
+
 # Back to '72
 def play_backto72():
     all_items = [] # generate the item database
@@ -262,6 +283,201 @@ def play_cliffhangers():
     else:
         print("Position: " + str(steps))
         print("Congratulations, you win!")
+
+    endgame()
+
+# Secret "X"
+def play_secretx():
+    all_items = [] # generate the item database
+    file = dir_path + smal_path # generate the filepath to the item bank
+    print("\nSECRET \"X\"") 
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        all_items.append(Small(*line.split()))
+
+    size = len(all_items) # get the size of the item bank
+    ids = random.sample(range(0, size), 4) # pick four different item IDs
+    items = [] # generate the items
+
+    # if these are 0, the correct price will be choice 1.
+    # if these are 1, the correct price will be choice 2.
+    prize1_pos = randrange(2)
+    prize2_pos = randrange(2)
+
+    secret_x = randrange(3) # row where the secret X is
+
+    # set all the items
+    for number in range (0, 2):
+       item = Small(all_items[ids[number]].description, all_items[ids[number]].shortname, all_items[ids[number]].price)
+       items.append(item)
+
+    spaces = ["1", "2", "3", "4", "5", "6"] # spaces on the board
+
+    # generate fake prices
+    wrongprice1 = generate_fake_price(int(items[0].price))
+    wrongprice2 = generate_fake_price(int(items[1].price))
+
+    # start gameplay
+    print("1 ? 2")
+    print("3 ? 4")
+    print("5 ? 6")
+
+    # place first X
+    placing_firstX = True
+    while (placing_firstX):
+        first = input("Where would you like to place your first X?: ")
+        try:
+            first = int(first)
+        except ValueError:
+            continue
+        if (1 <= first <= 6):
+            spaces[first-1] = "X"
+            placing_firstX = False
+        else:
+            pass
+
+    # show board
+    print() # line break
+    print(spaces[0] + " ? " + spaces[1])
+    print(spaces[2] + " ? " + spaces[3])
+    print(spaces[4] + " ? " + spaces[5])
+
+    # item #1
+    print() # line break
+    print(items[0].showPrize())
+    if (prize1_pos == 0): # choice #1 is the correct answer
+        print("1. " + items[0].showARP())
+        print("2. $" + str(wrongprice1))
+    else: # choice #2 is the correct answer
+        print("1. $" + str(wrongprice1))
+        print("2. " + items[0].showARP())
+    first_loop = True
+    while (first_loop):
+        choice1 = input("For another X, what is the correct answer?: ")
+        try:
+            choice1 = int(choice1)
+        except ValueError:
+            continue
+        if (1 <= choice1 <= 2):
+            first_loop = False
+        else:
+            pass
+    print("\nThe actual retail price is " + items[0].showARP())
+    if (choice1-1 == prize1_pos):
+        print("That's correct! You earn another X.")
+        # show board
+        print() # line break
+        print(spaces[0] + " ? " + spaces[1])
+        print(spaces[2] + " ? " + spaces[3])
+        print(spaces[4] + " ? " + spaces[5])
+
+        # place second X
+        placing_secondX = True
+        while (placing_secondX):
+            second = input("Where would you like to place your X?: ")
+            try:
+                second = int(second)
+            except ValueError:
+                continue
+            if ((1 <= second <= 6) and (spaces[second-1] != "X") ):
+                spaces[second-1] = "X"
+                placing_secondX = False
+            else:
+                pass
+
+    else:
+        print("Sorry, that's not correct.")
+
+    # show board
+    print() # line break
+    print(spaces[0] + " ? " + spaces[1])
+    print(spaces[2] + " ? " + spaces[3])
+    print(spaces[4] + " ? " + spaces[5])
+
+    # item #2
+    print() # line break
+    print(items[1].showPrize())
+    if (prize2_pos == 0): # choice #1 is the correct answer
+        print("1. " + items[1].showARP())
+        print("2. $" + str(wrongprice2))
+    else: # choice #2 is the correct answer
+        print("1. $" + str(wrongprice2))
+        print("2. " + items[1].showARP())
+
+    second_loop = True
+    while (second_loop):
+        choice2 = input("For another X, what is the correct answer?: ")
+        try:
+            choice2 = int(choice2)
+        except ValueError:
+            continue
+        if (1 <= choice2 <= 2):
+            second_loop = False
+        else:
+            pass
+    print("\nThe actual retail price is " + items[1].showARP())
+    if (choice2-1 == prize2_pos):
+        print("That's correct! You earn another X.")
+        # show board
+        print() # line break
+        print(spaces[0] + " ? " + spaces[1])
+        print(spaces[2] + " ? " + spaces[3])
+        print(spaces[4] + " ? " + spaces[5])
+
+        # place third X
+        placing_thirdX = True
+        while (placing_thirdX):
+            third = input("Where would you like to place your X?: ")
+            try:
+                third = int(third)
+            except ValueError:
+                continue
+            if ((1 <= third <= 6) and (spaces[third-1] != "X") ):
+                spaces[third-1] = "X"
+                placing_thirdX = False
+            else:
+                pass
+    else:
+        print("Sorry, that's not correct.")
+
+    # show board
+    print() # line break
+    print(spaces[0] + " ? " + spaces[1])
+    print(spaces[2] + " ? " + spaces[3])
+    print(spaces[4] + " ? " + spaces[5])
+
+    print() # line break
+    input("Let's see where the secret X is...")
+
+    print() # line break
+    if (secret_x == 0):
+        print(spaces[0] + " X " + spaces[1])
+        print(spaces[2] + " ? " + spaces[3])
+        print(spaces[4] + " ? " + spaces[5])
+    elif (secret_x == 1):
+        print(spaces[0] + " ? " + spaces[1])
+        print(spaces[2] + " X " + spaces[3])
+        print(spaces[4] + " ? " + spaces[5])
+    else:
+        print(spaces[0] + " ? " + spaces[1])
+        print(spaces[2] + " ? " + spaces[3])
+        print(spaces[4] + " X " + spaces[5])
+
+    # win conditions
+    print() # line break
+    if ( (spaces[0] == "X") and (spaces[1] == "X") and (secret_x == 0) ): # three in a row in the top row
+        print("Congratulations, you win!")
+    elif ( (spaces[2] == "X") and (spaces[3] == "X") and (secret_x == 1) ): # three in a row in the center row
+        print("Congratulations, you win!")
+    elif ( (spaces[4] == "X") and (spaces[5] == "X") and (secret_x == 2) ): # three in a row in the bottom row
+        print("Congratulations, you win!")
+    elif ( (spaces[0] == "X") and (spaces[5] == "X") and (secret_x == 1) ): # top-left to bottom-right diagonal
+        print("Congratulations, you win!")
+    elif ( (spaces[1] == "X") and (spaces[4] == "X") and (secret_x == 1) ): # top-right to bottom-left diagonal
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")              
 
     endgame()
 
