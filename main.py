@@ -204,7 +204,8 @@ while Loop:
             display_sing_menu()
             sng = input("Select a pricing game: ")
             if sng == "1":
-                print("You picked Balance Game")
+                os.system('cls')
+                play_balancegame()
             elif sng == "3":
                 os.system('cls')
                 play_checkgame()

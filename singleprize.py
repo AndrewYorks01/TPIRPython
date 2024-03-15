@@ -48,6 +48,144 @@ def compatible_for_sidebyside(price):
         else:
             return True
 
+# Balance Game
+def play_balancegame():
+    items = [] # generate the item database
+    file = dir_path + larg_path # generate the filepath to the item bank
+    print("\nBALANCE GAME")
+
+    lines = open(file).readlines() # open the item bank
+    for line in lines: # extract the items from the text file into the database
+        if (int(Large(*line.split()).price) < 10000):
+            items.append(Large(*line.split()))
+
+    size = len(items) # get the size of the item bank
+    prize_id = randrange(size) # pick a prize ID
+    prize = Large(items[prize_id].description, items[prize_id].shortname, items[prize_id].price) # pick the prize with the chosen ID
+
+    thousandths = int(prize.price) - (int(prize.price) % 1000) # car's price rounded down to nearest multiple of 1000
+    small_bag = int(prize.price) - thousandths # value of the "small" bag
+    big_bags = [0, 0, 0] # values of the big bags
+    picked = [False, False, False] # denotes whether the bags have been picked
+    placed = 0 # number of bags picked
+    player_side = small_bag # value of the player's side of the scale
+
+    print(prize.showPrize()) # show the prize
+    print() # line break
+
+    # Generates the bags. For example, if "thousandths" equals 6000, we could
+    # generate 4000 and 2000. 
+    
+    # If "thousandths" is divisible by 2000, we don't two identical values.
+    if ( (thousandths % 2000) == 0):
+        if (thousandths == 4000):
+            big_bags[0] = 3
+            big_bags[1] = 1 # end
+        elif (thousandths == 6000):
+            set_6000 = randrange(2)
+            if (set_6000 == 0):
+                big_bags[0] = 5
+                big_bags[1] = 1
+            elif (set_6000 == 1):
+                big_bags[0] = 4
+                big_bags[1] = 2 # end
+        elif (thousandths == 8000):
+            set_8000 = randrange(3)
+            if (set_8000 == 0):
+                big_bags[0] = 7
+                big_bags[1] = 1
+            elif (set_8000 == 1):
+                big_bags[0] = 6
+                big_bags[1] = 2
+            elif (set_8000 == 2):
+                big_bags[0] = 5
+                big_bags[1] = 3 # end
+        
+    # thousandths place is not divisible by zero
+    if ( (thousandths % 2000) != 0):
+        if (thousandths == 3000):
+            big_bags[0] = 2
+            big_bags[1] = 1 # end
+        elif (thousandths == 5000):
+            set_5000 = randrange(2)
+            if (set_5000 == 0):
+                big_bags[0] = 4
+                big_bags[1] = 1
+            elif (set_5000 == 1):
+                big_bags[0] = 3
+                big_bags[1] = 2 # end
+        elif (thousandths == 7000):
+            set_7000 = randrange(3)
+            if (set_7000 == 0):
+                big_bags[0] = 6
+                big_bags[1] = 1
+            elif (set_7000 == 1):
+                big_bags[0] = 5
+                big_bags[1] = 2
+            elif (set_7000 == 2):
+                big_bags[0] = 4
+                big_bags[1] = 3 # end
+        elif (thousandths == 9000):
+            set_9000 = randrange(4)
+            if (set_9000 == 0):
+                big_bags[0] = 8
+                big_bags[1] = 1
+            elif (set_9000 == 1):
+                big_bags[0] = 7
+                big_bags[1] = 2
+            elif (set_9000 == 2):
+                big_bags[0] = 6
+                big_bags[1] = 3
+            elif (set_9000 == 3):
+                big_bags[0] = 5
+                big_bags[1] = 4
+
+    # set the value of the unused bag
+    unused = big_bags[0]
+    while ( (unused == big_bags[0]) or (unused == big_bags[1]) ):
+        unused = randrange(thousandths/1000)
+
+    # multiply the values by 1000, then sort them
+    unused *= 1000
+    big_bags[0] *= 1000
+    big_bags[1] *= 1000
+    big_bags[2] = unused
+    big_bags.sort()
+
+    while (placed < 2):
+        for x in range(0, 3):
+            if (picked[x]):
+                print(str(x+1) + ". $" + str(big_bags[x]) + " - O")
+            else:
+                print(str(x+1) + ". $" + str(big_bags[x]))
+        print("The scale is currently set to $" + str(player_side) + ".")
+        choosing = True
+        # pick bags
+        while (choosing):
+            player_choice = input("Which bag do you want to add to the scale?: ")
+            try:
+                player_choice = int(player_choice)
+            except ValueError:
+                continue
+            if ( (player_choice < 1) or (player_choice > 3) ):
+                pass
+            elif (picked[player_choice-1]): # bag has already been picked
+                pass
+            else:
+                picked[player_choice-1] = True # bag has been picked
+                player_side += big_bags[player_choice-1] # add bag's value to player's side
+                placed += 1 # a bag has been placed on the player's side
+                choosing = False
+                print() # line break
+
+    print("You've set the scale to $" + str(player_side))
+    print("The actual retail price of the item is " + prize.showARP())
+    if (int(player_side) == int(prize.price)):
+        print("Congratulations, you win!")
+    else:
+        print("Sorry, you lose.")
+    endgame()
+
 # Check Game
 def play_checkgame():
     items = [] # generate the item database
